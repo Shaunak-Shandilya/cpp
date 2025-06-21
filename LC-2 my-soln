@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+
+struct ListNode {
+    
+    //values
+    int val;
+    ListNode* next;
+    
+    //constructors (polymorphism)
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+};
+
+class Solution {
+public: 
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {       
+        
+        std::vector<int> vecl1, vecl2; //creating 2 vectors 
+
+        while (l1) { //check if current node is not null does not skip last node in linked list
+            vecl1.push_back(l1->val);
+            l1 = l1->next;
+        }
+        while (l2) {
+            vecl2.push_back(l2->val);
+            l2 = l2->next;
+        }
+        
+        //vector reversal LSB first, MSB last
+
+
+        //essential declarations for sum
+        int carry = 0, n = vecl1.size(), m = vecl2.size();
+        int maxlen = (n>m) ? n : m ;
+
+        std::vector<int> result;
+
+        //adding process
+        for (int i = 0; i < maxlen; ++i) {
+            int d1 = (i < n) ? vecl1[i] : 0;  // use 0 if vecl1 is shorter
+            int d2 = (i < m) ? vecl2[i] : 0;  // use 0 if vecl2 is shorter
+            int sum = d1 + d2 + carry;
+            result.push_back(sum % 10);      // store the unit digit
+            carry = sum / 10;                // store the carry
+        }
+
+        if (carry) result.push_back(carry);
+
+        //creation of resultant linked list
+
+        if (result.empty()) return nullptr;
+        ListNode* head = new ListNode(result[0]);
+        ListNode* curr = head;
+        for (size_t i = 1; i < result.size(); ++i) {
+            curr->next = new ListNode(result[i]);
+            curr = curr->next;
+        }
+        return head;
+       
+    }
+};
