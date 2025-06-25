@@ -1,0 +1,46 @@
+//MY CODE
+//--------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0) return false;
+        if (x == 0) return true;
+        int temp, y = 0, counter = 10;
+        temp = x;
+        while (temp != 0) {
+            y += temp % 10;
+            temp = temp / 10;
+            if (x == y) return true;
+            y *= 10;
+        }
+        return false;
+    }
+}x1;
+/*
+int main() {
+    std::cout << x1.isPalindrome(1234567899);
+}
+*/
+
+
+//BEST SOLUTION
+//-------------------------------------------------------------------------------------------------------------------------
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        // Handle negative numbers and numbers ending in zero
+        if (x < 0 || (x % 10 == 0 && x != 0)) return false;
+        
+        // Reverse half the number to avoid overflow
+        int reversed = 0;
+        while (x > reversed) {
+            reversed = reversed * 10 + x % 10;
+            x /= 10;
+        }
+        
+        // Check if palindrome (handles both even and odd digit counts)
+        return x == reversed || x == reversed / 10;
+    }
+};
